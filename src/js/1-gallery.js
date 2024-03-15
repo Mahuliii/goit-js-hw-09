@@ -69,32 +69,22 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
-const createGalleryItem = image => {
+const createGalleryItem = ({ original, preview, description }) => {
   const listItem = document.createElement('li');
   listItem.classList.add('gallery-item');
   const linkElement = document.createElement('a');
   linkElement.classList.add('gallery-link');
-  linkElement.href = image.original;
+  linkElement.href = original;
   const imageElement = document.createElement('img');
   imageElement.classList.add('gallery-image');
-  imageElement.src = image.preview;
-  imageElement.alt = image.description;
-  listItem.appendChild(imageElement);
-  return listItem;
+  imageElement.src = preview;
+  imageElement.alt = description;
+  linkElement.appendChild(imageElement); // тут змінила
+  listItem.appendChild(linkElement);
+  gallery.appendChild(listItem);
 };
-
-function appendGalleryItems(images) {
-  const fragment = document.createDocumentFragment();
-  images.forEach(image => {
-    const galleryItem = createGalleryItem(image);
-    fragment.appendChild(galleryItem);
-  });
-  gallery.appendChild(fragment);
-}
-
-appendGalleryItems(images);
-
-const lightbox = new SimpleLightbox('.gallery a', {
+images.forEach(createGalleryItem);
+new SimpleLightbox('.gallery a', {
   captions: true,
   captionDelay: 250,
   captionsData: 'alt',
