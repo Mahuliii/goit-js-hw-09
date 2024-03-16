@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.querySelector('.feedback-form');
   form.addEventListener('input', function () {
-    const emailValue = form.elements.email.value;
-    const messageValue = form.elements.message.value;
+    const emailValue = form.elements.email.value.trim();
+    const messageValue = form.elements.message.value.trim();
     const formData = {
       email: emailValue,
       message: messageValue,
@@ -19,12 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
     event.preventDefault();
     const emailValue = form.elements.email.value;
     const messageValue = form.elements.message.value;
-    const formData = {
-      email: emailValue,
-      message: messageValue,
-    };
-    localStorage.removeItem('feedback-form-state');
-    form.reset();
-    console.log(formData);
+    if (emailValue && messageValue) {
+      const formData = {
+        email: emailValue,
+        message: messageValue,
+      };
+      localStorage.removeItem('feedback-form-state');
+      form.reset();
+      console.log(formData);
+    } else {
+      alert('Будь ласка, заповніть обидва поля перед відправленням форми.');
+    }
   });
 });
